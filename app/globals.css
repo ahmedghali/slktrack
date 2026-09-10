@@ -1,26 +1,332 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* brand (same in both modes) */
+  --brand: #2563eb;
+  --brand-deep: #1e3a8a;
+  --brand-navy: #0c1a3d;
+  --brand-lite: rgba(96, 150, 255, 0.5);
+
+  /* sidebar chrome (same in both modes) */
+  --sidebar-bg-start: #0f1b3d;
+  --sidebar-bg-end: #0a1330;
+  --sidebar-text: rgba(255, 255, 255, 0.72);
+  --sidebar-text-active: #ffffff;
+  --sidebar-active-bg: rgba(37, 99, 235, 0.28);
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+
+  /* light mode (default) */
+  --bg: #f4f6fa;
+  --surface: #ffffff;
+  --surface-2: #eef1f7;
+  --border: #e3e7ef;
+  --border-strong: #d3d9e4;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.05), 0 10px 28px -12px rgba(15, 23, 42, 0.12);
+
+  /* status (pastel card backgrounds + solid icon/text colors) */
+  --ok: #16a34a;
+  --ok-bg: #eafbf0;
+  --warn: #d97706;
+  --warn-bg: #fef6e7;
+  --info: #0891b2;
+  --info-bg: #e8f7fb;
+  --busy: #ea580c;
+  --busy-bg: #fef1e8;
+  --danger: #dc2626;
+  --danger-bg: #fdecec;
+  --neutral-bg: #eaf1ff;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0a0e17;
+  --surface: #121a2b;
+  --surface-2: #182238;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 14px 34px -14px rgba(0, 0, 0, 0.65);
+
+  --ok-bg: rgba(22, 163, 74, 0.14);
+  --warn-bg: rgba(217, 119, 6, 0.14);
+  --info-bg: rgba(8, 145, 178, 0.14);
+  --busy-bg: rgba(234, 88, 12, 0.14);
+  --danger-bg: rgba(220, 38, 38, 0.16);
+  --neutral-bg: rgba(37, 99, 235, 0.14);
+}
+
+/* Landing page is always dark, regardless of the app's light/dark toggle — a marketing/hero page, not app-shell content. */
+.landing-dark {
+  --bg: #070a11;
+  --surface: #0f172a;
+  --surface-2: #162038;
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  --ok-bg: rgba(22, 163, 74, 0.14);
+  --warn-bg: rgba(217, 119, 6, 0.14);
+  --info-bg: rgba(8, 145, 178, 0.14);
+  --busy-bg: rgba(234, 88, 12, 0.14);
+  --danger-bg: rgba(220, 38, 38, 0.16);
+  --neutral-bg: rgba(37, 99, 235, 0.14);
+
+  background-color: #070a11;
+  background-image: 
+    radial-gradient(1200px 700px at 80% -5%, rgba(37, 99, 235, 0.18), transparent 60%),
+    radial-gradient(800px 600px at 10% 30%, rgba(30, 58, 138, 0.22), transparent 60%),
+    radial-gradient(900px 700px at 90% 70%, rgba(8, 145, 178, 0.15), transparent 65%),
+    radial-gradient(700px 500px at 20% 95%, rgba(12, 26, 61, 0.5), transparent 60%);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-navy: var(--brand-navy);
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
+
+  --color-ok: var(--ok);
+  --color-ok-bg: var(--ok-bg);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --color-busy: var(--busy);
+  --color-busy-bg: var(--busy-bg);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-neutral-bg: var(--neutral-bg);
+
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes slk-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slk-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(37, 99, 235, 0);
+  }
+}
+
+@keyframes slk-pulse-danger {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(220, 38, 38, 0);
+  }
+}
+
+@keyframes slk-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scan-laser {
+  0%, 100% {
+    top: 5%;
+    opacity: 0.8;
+  }
+  50% {
+    top: 92%;
+    opacity: 1;
+  }
+}
+
+@keyframes ticker-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-rise {
+    animation: slk-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .anim-pulse {
+    animation: slk-pulse 2.2s infinite;
+  }
+  .anim-pulse-danger {
+    animation: slk-pulse-danger 2s infinite;
+  }
+  .anim-fade {
+    animation: slk-fade-in 0.5s ease both;
+  }
+  .anim-laser {
+    animation: scan-laser 2.2s ease-in-out infinite;
+  }
+  .anim-marquee {
+    animation: ticker-marquee 35s linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(37, 99, 235, 0.35);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(37, 99, 235, 0.55);
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Opaque cards with a soft shadow — not glassmorphism, per the navy-sidebar/light-content reference */
+.app-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.app-card:hover {
+  border-color: var(--border-strong);
+}
+
+/* Glassmorphism for the landing page & special highlight cards */
+.glass-card {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.glass-card-solid {
+  background: linear-gradient(160deg, #101c3a, #0a1330 90%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 36px -12px rgba(0, 0, 0, 0.6);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand), var(--brand-deep));
+  border: 1px solid var(--brand-lite);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(37, 99, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.text-gradient {
+  background: linear-gradient(112deg, #ffffff 15%, #93c5fd 65%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-amber {
+  background: linear-gradient(112deg, #ffffff 20%, #fcd34d 70%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sidebar-chrome {
+  background: linear-gradient(180deg, var(--sidebar-bg-start), var(--sidebar-bg-end));
+  border-color: var(--sidebar-border);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Blueprint / schematic grid effect for industrial diagrams */
+.schematic-grid {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+.glow-pill {
+  position: relative;
+}
+.glow-pill::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.5), rgba(8, 145, 178, 0.5));
+  z-index: -1;
+  opacity: 0.6;
+  filter: blur(4px);
+}
+
+/* Hide Next.js dev portal overlay so extension-injected attributes do not show intrusive popups */
+nextjs-portal {
+  display: none !important;
+}
+
